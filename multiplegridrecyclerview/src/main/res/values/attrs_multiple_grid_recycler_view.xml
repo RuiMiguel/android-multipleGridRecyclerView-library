@@ -1,0 +1,8 @@
+<resources>
+  <declare-styleable name="MultipleGridRecyclerView">
+    <attr format="string" name="exampleString"/>
+    <attr format="dimension" name="exampleDimension"/>
+    <attr format="color" name="exampleColor"/>
+    <attr format="color|reference" name="exampleDrawable"/>
+  </declare-styleable>
+</resources>
