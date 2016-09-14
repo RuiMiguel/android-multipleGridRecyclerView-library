@@ -25,4 +25,6 @@ dependencies {
   compile rootProject.ext.libraries.androidSupportV7
   compile rootProject.ext.libraries.androidSupportDesign
   compile rootProject.ext.libraries.recyclerViewV7
+
+  compile rootProject.ext.libraries.easyrecycleradapters
 }

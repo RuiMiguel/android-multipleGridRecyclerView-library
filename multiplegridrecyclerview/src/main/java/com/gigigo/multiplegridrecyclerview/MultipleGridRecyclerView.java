@@ -2,26 +2,32 @@ package com.gigigo.multiplegridrecyclerview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
-import android.text.TextPaint;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
+import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
+import com.carlosdelachica.easyrecycleradapters.adapter.EasyViewHolder;
+import com.carlosdelachica.easyrecycleradapters.decorations.DividerItemDecoration;
+import com.carlosdelachica.easyrecycleradapters.recycler_view_manager.EasyRecyclerViewManager;
+import java.util.List;
 
 /**
  * TODO: document your custom view class.
  */
-public class MultipleGridRecyclerView extends View {
-  private String mExampleString; // TODO: use a default from R.string...
-  private int mExampleColor = Color.RED; // TODO: use a default from R.color...
-  private float mExampleDimension = 0; // TODO: use a default from R.dimen...
-  private Drawable mExampleDrawable;
+public class MultipleGridRecyclerView extends FrameLayout {
+  private View emptyViewLayout;
+  private View recyclerViewLayout;
 
-  private TextPaint mTextPaint;
-  private float mTextWidth;
-  private float mTextHeight;
+  private SwipeRefreshLayout swipeRefreshLayout;
+  private RecyclerView recyclerView;
+  private EasyRecyclerAdapter adapter;
+
+  private EasyRecyclerViewManager easyRecyclerViewManager;
 
   public MultipleGridRecyclerView(Context context) {
     super(context);
@@ -39,10 +45,27 @@ public class MultipleGridRecyclerView extends View {
   }
 
   private void init(AttributeSet attrs, int defStyle) {
+    View view =
+        LayoutInflater.from(getContext()).inflate(R.layout.multiple_grid_recycler_view, this, true);
+    emptyViewLayout = view.findViewById(R.id.empty_view_layout);
+    recyclerViewLayout = view.findViewById(R.id.recycler_view_layout);
+
+    swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_recycler_view);
+    swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
+        android.R.color.holo_orange_light, android.R.color.holo_red_light);
+
+    recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+
+    initAdapter();
+    initRecyclerView();
+    initRefreshLayout();
+
     // Load attributes
     final TypedArray a =
-        getContext().obtainStyledAttributes(attrs, R.styleable.MultipleGridRecyclerView, defStyle, 0);
+        getContext().obtainStyledAttributes(attrs, R.styleable.MultipleGridRecyclerView, defStyle,
+            0);
 
+    /*
     mExampleString = a.getString(R.styleable.MultipleGridRecyclerView_exampleString);
     mExampleColor = a.getColor(R.styleable.MultipleGridRecyclerView_exampleColor, mExampleColor);
     // Use getDimensionPixelSize or getDimensionPixelOffset when dealing with
@@ -55,6 +78,7 @@ public class MultipleGridRecyclerView extends View {
       mExampleDrawable.setCallback(this);
     }
 
+
     a.recycle();
 
     // Set up a default TextPaint object
@@ -64,117 +88,81 @@ public class MultipleGridRecyclerView extends View {
 
     // Update TextPaint and text measurements from attributes
     invalidateTextPaintAndMeasurements();
+    */
   }
 
-  private void invalidateTextPaintAndMeasurements() {
-    mTextPaint.setTextSize(mExampleDimension);
-    mTextPaint.setColor(mExampleColor);
-    mTextWidth = mTextPaint.measureText(mExampleString);
-
-    Paint.FontMetrics fontMetrics = mTextPaint.getFontMetrics();
-    mTextHeight = fontMetrics.bottom;
+  private void initAdapter() {
+    adapter = new EasyRecyclerAdapter(getContext());
   }
 
-  @Override protected void onDraw(Canvas canvas) {
-    super.onDraw(canvas);
+  private void initRecyclerView() {
+    setMultipleGridLayoutManager(getResources().getInteger(R.integer.grid_columns));
 
-    // TODO: consider storing these as member variables to reduce
-    // allocations per draw cycle.
-    int paddingLeft = getPaddingLeft();
-    int paddingTop = getPaddingTop();
-    int paddingRight = getPaddingRight();
-    int paddingBottom = getPaddingBottom();
-
-    int contentWidth = getWidth() - paddingLeft - paddingRight;
-    int contentHeight = getHeight() - paddingTop - paddingBottom;
-
-    // Draw the text.
-    canvas.drawText(mExampleString, paddingLeft + (contentWidth - mTextWidth) / 2,
-        paddingTop + (contentHeight + mTextHeight) / 2, mTextPaint);
-
-    // Draw the example drawable on top of the text.
-    if (mExampleDrawable != null) {
-      mExampleDrawable.setBounds(paddingLeft, paddingTop, paddingLeft + contentWidth, paddingTop + contentHeight);
-      mExampleDrawable.draw(canvas);
-    }
+    recyclerView.setAdapter(adapter);
+    recyclerView.addItemDecoration(new DividerItemDecoration(getContext()));
   }
 
-  /**
-   * Gets the example string attribute value.
-   *
-   * @return The example string attribute value.
-   */
-  public String getExampleString() {
-    return mExampleString;
+  private void initRefreshLayout() {
+    recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+      public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+      }
+
+      public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+        int topRowVerticalPosition = (recyclerView == null || recyclerView.getChildCount() == 0) ? 0
+            : recyclerView.getChildAt(0).getTop();
+        swipeRefreshLayout.setEnabled(topRowVerticalPosition >= 0);
+      }
+    });
+    swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+      @Override public void onRefresh() {
+        swipeRefreshLayout.setRefreshing(false);
+        //easyRecyclerViewManager.onRefresh();
+
+      }
+    });
   }
 
-  /**
-   * Sets the view's example string attribute value. In the example view, this string
-   * is the text to draw.
-   *
-   * @param exampleString The example string attribute value to use.
-   */
-  public void setExampleString(String exampleString) {
-    mExampleString = exampleString;
-    invalidateTextPaintAndMeasurements();
+  public void setAdapterDataViewHolder(Class valueClass,
+      Class<? extends EasyViewHolder> viewHolder) {
+    adapter.bind(valueClass, viewHolder);
+/*
+    easyRecyclerViewManager = new EasyRecyclerViewManager.Builder(recyclerView, adapter)
+        .layoutManager(new GridLayoutManager(getActivity(), getResources().getInteger(R.integer.grid_columns)))
+        .divider(R.drawable.custom_divider)
+        .emptyLoadingListTextView(emptyList)
+        .emptyListText(R.string.empty_list)
+        .emptyListTextColor(R.color.accentColor)
+        .loadingView(loadingView)
+        .clickListener(this)
+        .longClickListener(this)
+        .recyclerViewClipToPadding(false)
+        .recyclerViewHasFixedSize(true)
+        .build();
+        */
   }
 
-  /**
-   * Gets the example color attribute value.
-   *
-   * @return The example color attribute value.
-   */
-  public int getExampleColor() {
-    return mExampleColor;
+  public void setMultipleGridLayoutManager(int gridColumns) {
+    LinearLayoutManager layoutManager = new GridLayoutManager(getContext(), gridColumns);
+    recyclerView.setLayoutManager(layoutManager);
   }
 
-  /**
-   * Sets the view's example color attribute value. In the example view, this color
-   * is the font color.
-   *
-   * @param exampleColor The example color attribute value to use.
-   */
-  public void setExampleColor(int exampleColor) {
-    mExampleColor = exampleColor;
-    invalidateTextPaintAndMeasurements();
+  public void addData(List<Object> data) {
+    //TODO: add data to recycler adapter
+
+    //easyRecyclerViewManager.addAll(data);
+    adapter.addAll(data);
+    //adapter.notifyItemRangeInserted(adapter.getItemCount(), data.size());
+
+    emptyViewLayout.setVisibility(GONE);
+    recyclerViewLayout.setVisibility(VISIBLE);
   }
 
-  /**
-   * Gets the example dimension attribute value.
-   *
-   * @return The example dimension attribute value.
-   */
-  public float getExampleDimension() {
-    return mExampleDimension;
-  }
+  public void clearData() {
+    //TODO: clear recycler adapter
 
-  /**
-   * Sets the view's example dimension attribute value. In the example view, this dimension
-   * is the font size.
-   *
-   * @param exampleDimension The example dimension attribute value to use.
-   */
-  public void setExampleDimension(float exampleDimension) {
-    mExampleDimension = exampleDimension;
-    invalidateTextPaintAndMeasurements();
-  }
-
-  /**
-   * Gets the example drawable attribute value.
-   *
-   * @return The example drawable attribute value.
-   */
-  public Drawable getExampleDrawable() {
-    return mExampleDrawable;
-  }
-
-  /**
-   * Sets the view's example drawable attribute value. In the example view, this drawable is
-   * drawn above the text.
-   *
-   * @param exampleDrawable The example drawable attribute value to use.
-   */
-  public void setExampleDrawable(Drawable exampleDrawable) {
-    mExampleDrawable = exampleDrawable;
+    adapter.clear();
+    adapter.notifyItemRangeRemoved(0, adapter.getItemCount());
+    recyclerViewLayout.setVisibility(GONE);
+    emptyViewLayout.setVisibility(VISIBLE);
   }
 }
