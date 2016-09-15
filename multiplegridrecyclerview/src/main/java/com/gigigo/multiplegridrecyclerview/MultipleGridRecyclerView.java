@@ -28,6 +28,8 @@ public class MultipleGridRecyclerView extends FrameLayout {
   private EasyRecyclerAdapter adapter;
 
   private EasyRecyclerViewManager easyRecyclerViewManager;
+  private OnRefreshListener refreshListener;
+  private View view;
 
   public MultipleGridRecyclerView(Context context) {
     super(context);
@@ -45,50 +47,19 @@ public class MultipleGridRecyclerView extends FrameLayout {
   }
 
   private void init(AttributeSet attrs, int defStyle) {
-    View view =
-        LayoutInflater.from(getContext()).inflate(R.layout.multiple_grid_recycler_view, this, true);
-    emptyViewLayout = view.findViewById(R.id.empty_view_layout);
-    recyclerViewLayout = view.findViewById(R.id.recycler_view_layout);
+    loadAttributes(attrs, defStyle);
 
-    swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_recycler_view);
-    swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
-        android.R.color.holo_orange_light, android.R.color.holo_red_light);
-
-    recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+    view = LayoutInflater.from(getContext()).inflate(R.layout.multiple_grid_recycler_view, this, true);
 
     initAdapter();
     initRecyclerView();
     initRefreshLayout();
+  }
 
-    // Load attributes
+  private void loadAttributes(AttributeSet attrs, int defStyle) {
     final TypedArray a =
         getContext().obtainStyledAttributes(attrs, R.styleable.MultipleGridRecyclerView, defStyle,
             0);
-
-    /*
-    mExampleString = a.getString(R.styleable.MultipleGridRecyclerView_exampleString);
-    mExampleColor = a.getColor(R.styleable.MultipleGridRecyclerView_exampleColor, mExampleColor);
-    // Use getDimensionPixelSize or getDimensionPixelOffset when dealing with
-    // values that should fall on pixel boundaries.
-    mExampleDimension =
-        a.getDimension(R.styleable.MultipleGridRecyclerView_exampleDimension, mExampleDimension);
-
-    if (a.hasValue(R.styleable.MultipleGridRecyclerView_exampleDrawable)) {
-      mExampleDrawable = a.getDrawable(R.styleable.MultipleGridRecyclerView_exampleDrawable);
-      mExampleDrawable.setCallback(this);
-    }
-
-
-    a.recycle();
-
-    // Set up a default TextPaint object
-    mTextPaint = new TextPaint();
-    mTextPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
-    mTextPaint.setTextAlign(Paint.Align.LEFT);
-
-    // Update TextPaint and text measurements from attributes
-    invalidateTextPaintAndMeasurements();
-    */
   }
 
   private void initAdapter() {
@@ -96,13 +67,15 @@ public class MultipleGridRecyclerView extends FrameLayout {
   }
 
   private void initRecyclerView() {
+    recyclerViewLayout = view.findViewById(R.id.recycler_view_layout);
+    emptyViewLayout = view.findViewById(R.id.empty_view_layout);
+    recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+
     setMultipleGridLayoutManager(getResources().getInteger(R.integer.grid_columns));
 
     recyclerView.setAdapter(adapter);
     recyclerView.addItemDecoration(new DividerItemDecoration(getContext()));
-  }
 
-  private void initRefreshLayout() {
     recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
       public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
       }
@@ -110,14 +83,20 @@ public class MultipleGridRecyclerView extends FrameLayout {
       public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         int topRowVerticalPosition = (recyclerView == null || recyclerView.getChildCount() == 0) ? 0
             : recyclerView.getChildAt(0).getTop();
-        swipeRefreshLayout.setEnabled(topRowVerticalPosition >= 0);
+        if(swipeRefreshLayout != null) swipeRefreshLayout.setEnabled(topRowVerticalPosition >= 0);
       }
     });
+  }
+
+  private void initRefreshLayout() {
+    swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_recycler_view);
+    swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
+        android.R.color.holo_orange_light, android.R.color.holo_red_light);
+
     swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
       @Override public void onRefresh() {
-        swipeRefreshLayout.setRefreshing(false);
+        refreshListener.onRefresh();
         //easyRecyclerViewManager.onRefresh();
-
       }
     });
   }
@@ -146,20 +125,35 @@ public class MultipleGridRecyclerView extends FrameLayout {
     recyclerView.setLayoutManager(layoutManager);
   }
 
-  public void addData(List<Object> data) {
-    //TODO: add data to recycler adapter
 
-    //easyRecyclerViewManager.addAll(data);
+  public void setRefreshing(boolean refreshing) {
+    swipeRefreshLayout.setRefreshing(refreshing);
+  }
+
+  public void setOnRefreshListener(OnRefreshListener refreshListener) {
+    this.refreshListener = refreshListener;
+  }
+
+
+  public void loadData(List<Object> data) {
+    adapter.clear();
     adapter.addAll(data);
-    //adapter.notifyItemRangeInserted(adapter.getItemCount(), data.size());
+    adapter.notifyDataSetChanged();
+
+    emptyViewLayout.setVisibility(GONE);
+    recyclerViewLayout.setVisibility(VISIBLE);
+  }
+
+  public void addData(List<Object> data) {
+    //easyRecyclerViewManager.addAll(data);
+    adapter.appendAll(data);
+    adapter.notifyItemRangeInserted(adapter.getItemCount(), data.size());
 
     emptyViewLayout.setVisibility(GONE);
     recyclerViewLayout.setVisibility(VISIBLE);
   }
 
   public void clearData() {
-    //TODO: clear recycler adapter
-
     adapter.clear();
     adapter.notifyItemRangeRemoved(0, adapter.getItemCount());
     recyclerViewLayout.setVisibility(GONE);

@@ -18,7 +18,6 @@ public class ImageViewHolder extends EasyViewHolder<ImageData> {
   public ImageViewHolder(Context context, ViewGroup parent, Picasso picasso) {
     super(context, parent, R.layout.image_item);
     this.picasso = picasso;
-
     image = (ImageView) this.itemView.findViewById(R.id.image);
   }
 

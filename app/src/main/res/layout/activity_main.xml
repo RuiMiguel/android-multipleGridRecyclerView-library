@@ -29,6 +29,15 @@
       fab:fab_labelsPosition="left"
       >
     <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_button_load"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_colorNormal="?attr/colorAccent"
+        fab:fab_icon="@android:drawable/ic_menu_search"
+        fab:fab_size="mini"
+        fab:fab_title="Load"
+        />
+    <com.getbase.floatingactionbutton.FloatingActionButton
         android:id="@+id/floating_action_button_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,7 +46,6 @@
         fab:fab_size="mini"
         fab:fab_title="Add"
         />
-
     <com.getbase.floatingactionbutton.FloatingActionButton
         android:id="@+id/floating_action_button_clear"
         android:layout_width="wrap_content"
