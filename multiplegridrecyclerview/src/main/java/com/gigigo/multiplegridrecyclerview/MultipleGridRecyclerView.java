@@ -29,8 +29,6 @@ public class MultipleGridRecyclerView extends FrameLayout {
   private MultipleGridAdapter adapter;
   private LinearLayoutManager layoutManager;
   private int gridColumns;
-
-  private EasyRecyclerViewManager easyRecyclerViewManager;
   private OnRefreshListener refreshListener;
   private View view;
 
@@ -99,29 +97,12 @@ public class MultipleGridRecyclerView extends FrameLayout {
     swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
       @Override public void onRefresh() {
         refreshListener.onRefresh();
-        //easyRecyclerViewManager.onRefresh();
       }
     });
   }
 
   public void setAdapterDataViewHolder(Class valueClass, Class<? extends EasyViewHolder> viewHolder) {
     adapter.bind(valueClass, viewHolder);
-
-
-    /*
-    easyRecyclerViewManager = new EasyRecyclerViewManager.Builder(recyclerView, adapter)
-        .layoutManager(new GridLayoutManager(getActivity(), getResources().getInteger(R.integer.grid_columns)))
-        .divider(R.drawable.custom_divider)
-        .emptyLoadingListTextView(emptyList)
-        .emptyListText(R.string.empty_list)
-        .emptyListTextColor(R.color.accentColor)
-        .loadingView(loadingView)
-        .clickListener(this)
-        .longClickListener(this)
-        .recyclerViewClipToPadding(false)
-        .recyclerViewHasFixedSize(true)
-        .build();
-        */
   }
 
   private void initMultipleGridLayoutManager() {
@@ -156,7 +137,6 @@ public class MultipleGridRecyclerView extends FrameLayout {
   }
 
   public void addData(List<Object> data) {
-    //easyRecyclerViewManager.addAll(data);
     adapter.appendAll(data);
 
     emptyViewLayout.setVisibility(GONE);

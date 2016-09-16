@@ -8,6 +8,7 @@ import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.gigigo.multiplegridrecyclerview.MultipleGridRecyclerView;
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    setTitle(item.getTitle());
+    Toast.makeText(this, "Layout mode: "+item.getTitle(),Toast.LENGTH_SHORT).show();
     switch (item.getItemId()) {
       case R.id.menu_1column_mode:
         multipleGridRecyclerView.setGridColumns(1);

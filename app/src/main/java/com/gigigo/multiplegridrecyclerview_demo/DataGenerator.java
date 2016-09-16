@@ -1,24 +1,28 @@
 package com.gigigo.multiplegridrecyclerview_demo;
 
+import com.gigigo.multiplegridrecyclerview_demo.recyclerview.Widget;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DataGenerator {
 
-  public static ImageData generateRandomImageData(int width, int i) {
-    return new ImageData("http://placeimg.com/" + width + "/" + 1 + "/any");
-  }
-
   public static List<Object> generateRandomDataList(int num, int width) {
     ArrayList<Object> data = new ArrayList<>();
     for (int i = 0; i < num; i++) {
+      Widget element;
       if (i % 2 == 0) {
-        data.add(generateRandomImageData(width, i));
+        element = new Widget("item" + i, "http://placeimg.com/" + width + "/" + 100 + "/any", 2, 1);
       } else if (i % 2 == 1) {
-        data.add(generateRandomImageData(width + 100, i));
+        element =
+            new Widget("item" + i, "http://placeimg.com/" + (width + 100) + "/" + 100 + "/any", 2,
+                1);
       } else {
-        data.add(generateRandomImageData(width - 100, i));
+        element =
+            new Widget("item" + i, "http://placeimg.com/" + (width - 100) + "/" + 100 + "/any", 2,
+                1);
       }
+
+      data.add(element);
     }
     return data;
   }
