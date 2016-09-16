@@ -1,9 +1,10 @@
-package com.gigigo.multiplegridrecyclerview_demo;
+package com.gigigo.multiplegridrecyclerview_demo.recyclerview;
 
 import android.content.Context;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyViewHolder;
+import com.gigigo.multiplegridrecyclerview_demo.R;
 import com.squareup.picasso.Picasso;
 
 public class ImageViewHolder extends EasyViewHolder<ImageData> {

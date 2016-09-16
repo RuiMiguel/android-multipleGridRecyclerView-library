@@ -1,4 +1,4 @@
-package com.gigigo.multiplegridrecyclerview;
+package com.gigigo.multiplegridrecyclerview_demo.recyclerview;
 
 /**
  * Created by rui.alonso on 9/9/16.

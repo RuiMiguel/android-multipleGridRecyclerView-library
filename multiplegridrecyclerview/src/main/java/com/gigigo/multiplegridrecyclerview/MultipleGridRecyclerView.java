@@ -14,6 +14,7 @@ import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyViewHolder;
 import com.carlosdelachica.easyrecycleradapters.decorations.DividerItemDecoration;
 import com.carlosdelachica.easyrecycleradapters.recycler_view_manager.EasyRecyclerViewManager;
+import com.gigigo.multiplegridrecyclerview.adapter.MultipleGridAdapter;
 import java.util.List;
 
 /**
@@ -25,7 +26,9 @@ public class MultipleGridRecyclerView extends FrameLayout {
 
   private SwipeRefreshLayout swipeRefreshLayout;
   private RecyclerView recyclerView;
-  private EasyRecyclerAdapter adapter;
+  private MultipleGridAdapter adapter;
+  private LinearLayoutManager layoutManager;
+  private int gridColumns;
 
   private EasyRecyclerViewManager easyRecyclerViewManager;
   private OnRefreshListener refreshListener;
@@ -63,7 +66,7 @@ public class MultipleGridRecyclerView extends FrameLayout {
   }
 
   private void initAdapter() {
-    adapter = new EasyRecyclerAdapter(getContext());
+    adapter = new MultipleGridAdapter(getContext());
   }
 
   private void initRecyclerView() {
@@ -71,19 +74,19 @@ public class MultipleGridRecyclerView extends FrameLayout {
     emptyViewLayout = view.findViewById(R.id.empty_view_layout);
     recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
 
-    setMultipleGridLayoutManager(getResources().getInteger(R.integer.grid_columns));
+    initMultipleGridLayoutManager();
 
     recyclerView.setAdapter(adapter);
     recyclerView.addItemDecoration(new DividerItemDecoration(getContext()));
 
-    recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+    recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
       public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
       }
 
       public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         int topRowVerticalPosition = (recyclerView == null || recyclerView.getChildCount() == 0) ? 0
             : recyclerView.getChildAt(0).getTop();
-        if(swipeRefreshLayout != null) swipeRefreshLayout.setEnabled(topRowVerticalPosition >= 0);
+        swipeRefreshLayout.setEnabled(topRowVerticalPosition >= 0);
       }
     });
   }
@@ -101,10 +104,11 @@ public class MultipleGridRecyclerView extends FrameLayout {
     });
   }
 
-  public void setAdapterDataViewHolder(Class valueClass,
-      Class<? extends EasyViewHolder> viewHolder) {
+  public void setAdapterDataViewHolder(Class valueClass, Class<? extends EasyViewHolder> viewHolder) {
     adapter.bind(valueClass, viewHolder);
-/*
+
+
+    /*
     easyRecyclerViewManager = new EasyRecyclerViewManager.Builder(recyclerView, adapter)
         .layoutManager(new GridLayoutManager(getActivity(), getResources().getInteger(R.integer.grid_columns)))
         .divider(R.drawable.custom_divider)
@@ -120,11 +124,21 @@ public class MultipleGridRecyclerView extends FrameLayout {
         */
   }
 
-  public void setMultipleGridLayoutManager(int gridColumns) {
-    LinearLayoutManager layoutManager = new GridLayoutManager(getContext(), gridColumns);
-    recyclerView.setLayoutManager(layoutManager);
+  private void initMultipleGridLayoutManager() {
+    this.gridColumns = getResources().getInteger(R.integer.grid_columns);
+    this.layoutManager = new GridLayoutManager(getContext(), gridColumns);
+    setMultipleGridLayoutManager(layoutManager);
   }
 
+  public void setGridColumns(int gridColumns) {
+    this.gridColumns = gridColumns;
+    this.layoutManager = new GridLayoutManager(getContext(), gridColumns);
+    setMultipleGridLayoutManager(this.layoutManager);
+  }
+
+  private void setMultipleGridLayoutManager(LinearLayoutManager layoutManager) {
+    recyclerView.setLayoutManager(layoutManager);
+  }
 
   public void setRefreshing(boolean refreshing) {
     swipeRefreshLayout.setRefreshing(refreshing);
@@ -134,11 +148,8 @@ public class MultipleGridRecyclerView extends FrameLayout {
     this.refreshListener = refreshListener;
   }
 
-
   public void loadData(List<Object> data) {
-    adapter.clear();
     adapter.addAll(data);
-    adapter.notifyDataSetChanged();
 
     emptyViewLayout.setVisibility(GONE);
     recyclerViewLayout.setVisibility(VISIBLE);
@@ -147,7 +158,6 @@ public class MultipleGridRecyclerView extends FrameLayout {
   public void addData(List<Object> data) {
     //easyRecyclerViewManager.addAll(data);
     adapter.appendAll(data);
-    adapter.notifyItemRangeInserted(adapter.getItemCount(), data.size());
 
     emptyViewLayout.setVisibility(GONE);
     recyclerViewLayout.setVisibility(VISIBLE);
@@ -155,8 +165,12 @@ public class MultipleGridRecyclerView extends FrameLayout {
 
   public void clearData() {
     adapter.clear();
-    adapter.notifyItemRangeRemoved(0, adapter.getItemCount());
+
     recyclerViewLayout.setVisibility(GONE);
     emptyViewLayout.setVisibility(VISIBLE);
+  }
+
+  public interface OnRefreshListener {
+    void onRefresh();
   }
 }
