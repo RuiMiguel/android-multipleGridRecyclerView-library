@@ -7,7 +7,6 @@ allprojects {
 
                  butterknife         : 'com.jakewharton:butterknife:8.4.0',
                  picasso             : 'com.squareup.picasso:picasso:2.5.2',
-                 easyrecycleradapters: 'com.github.cmc00022:easyrecycleradapters:1.1.1',
                  floatingactionbutton: 'com.getbase:floatingactionbutton:1.10.1']
 
     testLibraries = [mockito: 'org.mockito:mockito-core:2.0.31-beta',

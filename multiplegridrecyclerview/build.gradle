@@ -8,8 +8,8 @@ android {
     minSdkVersion rootProject.ext.androidMinSdkVersion
     targetSdkVersion rootProject.ext.androidTargetSdkVersion
 
-    versionCode 1
-    versionName "1.0"
+    versionCode 2
+    versionName "2.0"
   }
 
   buildTypes {
@@ -25,6 +25,4 @@ dependencies {
   compile rootProject.ext.libraries.androidSupportV7
   compile rootProject.ext.libraries.androidSupportDesign
   compile rootProject.ext.libraries.recyclerViewV7
-
-  compile rootProject.ext.libraries.easyrecycleradapters
 }

@@ -22,5 +22,6 @@
   <dimen name="text_xxxxxxlarge">32sp</dimen>
   <dimen name="text_xxxxxxxlarge">34sp</dimen>
   <dimen name="text_xxxxxxxxlarge">36sp</dimen>
+
   <dimen name="divider_size">1dp</dimen>
 </resources>

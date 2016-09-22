@@ -12,7 +12,7 @@ import android.widget.Toast;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.gigigo.multiplegridrecyclerview.MultipleGridRecyclerView;
-import com.gigigo.multiplegridrecyclerview_demo.recyclerview.Widget;
+import com.gigigo.multiplegridrecyclerview_demo.recyclerview.ImageWidget;
 import com.gigigo.multiplegridrecyclerview_demo.recyclerview.ImageViewHolder;
 
 public class MainActivity extends AppCompatActivity {
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
   private void initMultipleGridRecyclerView() {
     multipleGridRecyclerView = (MultipleGridRecyclerView) findViewById(R.id.multiple_grid_recycler_view);
-    multipleGridRecyclerView.setAdapterDataViewHolder(Widget.class, ImageViewHolder.class);
+    multipleGridRecyclerView.setAdapterDataViewHolder(ImageWidget.class, ImageViewHolder.class);
     multipleGridRecyclerView.setOnRefreshListener(new MultipleGridRecyclerView.OnRefreshListener() {
       @Override public void onRefresh() {
         new Handler().postDelayed(new Runnable() {
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
     display.getSize(size);
     int width = size.x;
     int grid_columns = 3;
-    multipleGridRecyclerView.loadData(DataGenerator.generateRandomDataList(30, width / grid_columns));
+    multipleGridRecyclerView.loadData(DataGenerator.generateRandomImageDataList(30, width / grid_columns));
   }
 
   private void addData() {
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
     display.getSize(size);
     int width = size.x;
     int grid_columns = 3;
-    multipleGridRecyclerView.addData(DataGenerator.generateRandomDataList(5, width / grid_columns));
+    multipleGridRecyclerView.addData(DataGenerator.generateRandomTextDataList(5, width / grid_columns));
   }
 
   private void clearData() {
