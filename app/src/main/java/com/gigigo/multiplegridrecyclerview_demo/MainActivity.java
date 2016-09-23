@@ -5,9 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -19,10 +18,15 @@ import com.gigigo.multiplegridrecyclerview_demo.recyclerview.TextWidget;
 
 public class MainActivity extends AppCompatActivity {
 
+  TextView columnTextView;
+  TextView ratioTextView;
+  FloatingActionsMenu floatingDataActionsMenu;
   FloatingActionButton floatingActionButtonLoad;
   FloatingActionButton floatingActionButtonAddImage;
   FloatingActionButton floatingActionButtonAddText;
   FloatingActionButton floatingActionButtonClear;
+
+  FloatingActionsMenu floatingAspectActionsMenu;
   FloatingActionButton floatingActionButtonMoreColumns;
   FloatingActionButton floatingActionButtonLessColumns;
   FloatingActionButton floatingActionButtonIncreaseRatio;
@@ -40,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
   private void initViews() {
     initFloatingActions();
     initMultipleGridRecyclerView();
+    initTextInfoView();
   }
 
   private void initFloatingActions() {
@@ -48,8 +53,17 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void initFloatingDataActions() {
-    final FloatingActionsMenu floatingDataActionsMenu =
-        (FloatingActionsMenu) findViewById(R.id.floating_action_data_menu);
+    floatingDataActionsMenu = (FloatingActionsMenu) findViewById(R.id.floating_action_data_menu);
+    floatingDataActionsMenu.setOnFloatingActionsMenuUpdateListener(
+        new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
+          @Override public void onMenuExpanded() {
+            floatingAspectActionsMenu.collapse();
+          }
+
+          @Override public void onMenuCollapsed() {
+
+          }
+        });
 
     floatingActionButtonLoad =
         (FloatingActionButton) findViewById(R.id.floating_action_button_load);
@@ -89,8 +103,18 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void initFloatingAspectActions() {
-    final FloatingActionsMenu floatingAspectActionsMenu =
+    floatingAspectActionsMenu =
         (FloatingActionsMenu) findViewById(R.id.floating_action_aspect_menu);
+    floatingAspectActionsMenu.setOnFloatingActionsMenuUpdateListener(
+        new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
+          @Override public void onMenuExpanded() {
+            floatingDataActionsMenu.collapse();
+          }
+
+          @Override public void onMenuCollapsed() {
+
+          }
+        });
 
     floatingActionButtonMoreColumns =
         (FloatingActionButton) findViewById(R.id.floating_action_button_more_columns);
@@ -151,6 +175,22 @@ public class MainActivity extends AppCompatActivity {
     multipleGridRecyclerView.setAdapterDataViewHolder(TextWidget.class, TextViewHolder.class);
   }
 
+  private void initTextInfoView() {
+    columnTextView = (TextView) findViewById(R.id.columns_text_view);
+    ratioTextView = (TextView) findViewById(R.id.ratio_text_view);
+
+    updateColumnInfo(multipleGridRecyclerView.getGridColumns());
+    updateRatioInfo(multipleGridRecyclerView.getCellAspectRatio());
+  }
+
+  private void updateRatioInfo(float cellAspectRatio) {
+    ratioTextView.setText("Cell aspect ratio= "+cellAspectRatio);
+  }
+
+  private void updateColumnInfo(int columns) {
+    columnTextView.setText("Grid columns= "+columns);
+  }
+
   private void loadData() {
     Display display = getWindowManager().getDefaultDisplay();
     Point size = new Point();
@@ -170,46 +210,44 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void moreColumns() {
-    int columns = 1;
+    int columns = multipleGridRecyclerView.getGridColumns();
     columns += 1;
-    if(columns>1){
+    if (columns > 1) {
       floatingActionButtonLessColumns.setEnabled(true);
     }
     multipleGridRecyclerView.setGridColumns(columns);
-    Toast.makeText(this,"Columns "+columns, Toast.LENGTH_SHORT).show();
+    updateColumnInfo(columns);
   }
 
   private void lessColumns() {
-    int columns = 1;
-    if(columns<=1){
+    int columns = multipleGridRecyclerView.getGridColumns();
+    if (columns <= 1) {
       floatingActionButtonLessColumns.setEnabled(false);
-    }
-    else {
-      columns-=1;
+    } else {
+      columns -= 1;
       multipleGridRecyclerView.setGridColumns(columns);
-      Toast.makeText(this,"Columns "+columns, Toast.LENGTH_SHORT).show();
+      updateColumnInfo(columns);
     }
   }
 
   private void increaseRatio() {
-    float ratio = 1f;
+    float ratio = multipleGridRecyclerView.getCellAspectRatio();
     ratio += 0.1f;
-    if(ratio>0.1f){
+    if (ratio > 0.1f) {
       floatingActionButtonDecreaseRatio.setEnabled(true);
     }
     multipleGridRecyclerView.setCellAspectRatio(ratio);
-    Toast.makeText(this,"Ratio "+ratio, Toast.LENGTH_SHORT).show();
+    updateRatioInfo(ratio);
   }
 
   private void decreaseRatio() {
-    float ratio = 1f;
-    if(ratio>0.1f){
+    float ratio = multipleGridRecyclerView.getCellAspectRatio();
+    if (ratio > 0.1f) {
       floatingActionButtonDecreaseRatio.setEnabled(false);
-    }
-    else {
+    } else {
       ratio += 0.1f;
       multipleGridRecyclerView.setCellAspectRatio(ratio);
-      Toast.makeText(this, "Ratio " + ratio, Toast.LENGTH_SHORT).show();
+      updateRatioInfo(ratio);
     }
   }
 

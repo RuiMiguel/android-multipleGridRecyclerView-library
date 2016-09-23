@@ -76,14 +76,14 @@
       fab:fab_addButtonColorNormal="?attr/colorPrimary"
       fab:fab_addButtonSize="normal"
       fab:fab_labelStyle="@style/FloatingActionButtonText"
-      fab:fab_labelsPosition="left"
+      fab:fab_labelsPosition="right"
       >
     <com.getbase.floatingactionbutton.FloatingActionButton
         android:id="@+id/floating_action_button_more_columns"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         fab:fab_colorNormal="?attr/colorAccent"
-        fab:fab_icon="@android:drawable/ic_menu_search"
+        fab:fab_icon="@android:drawable/ic_menu_add"
         fab:fab_size="mini"
         fab:fab_title="+ Columns"
         />
@@ -92,7 +92,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         fab:fab_colorNormal="?attr/colorAccent"
-        fab:fab_icon="@android:drawable/ic_menu_add"
+        fab:fab_icon="@android:drawable/ic_menu_delete"
         fab:fab_size="mini"
         fab:fab_title="- Columns"
         />
@@ -116,4 +116,19 @@
         />
 
   </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+  <TextView
+      android:id="@+id/columns_text_view"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@drawable/background_label_fab"
+      android:textColor="@color/white"
+      />
+  <TextView
+      android:id="@+id/ratio_text_view"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@drawable/background_label_fab"
+      android:textColor="@color/white"
+      />
 </android.support.design.widget.CoordinatorLayout>

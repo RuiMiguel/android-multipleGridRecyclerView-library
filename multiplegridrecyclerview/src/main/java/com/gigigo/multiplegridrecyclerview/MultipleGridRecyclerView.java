@@ -150,6 +150,14 @@ public class MultipleGridRecyclerView extends FrameLayout {
     setMultipleGridLayoutManager(this.layoutManager);
   }
 
+  public int getGridColumns() {
+    return this.gridColumns;
+  }
+
+  public float getCellAspectRatio() {
+    return this.cellAspectRatio;
+  }
+
   private void setMultipleGridLayoutManager(RecyclerView.LayoutManager layoutManager) {
     recyclerView.setLayoutManager(layoutManager);
   }
