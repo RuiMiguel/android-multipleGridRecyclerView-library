@@ -73,13 +73,15 @@ public class MultipleGridRecyclerView extends FrameLayout {
 
     try {
       gridColumns = a.getInteger(R.styleable.MultipleGridRecyclerView_columns, DEFAULT_COLUMNS);
-      cellAspectRatio = a.getFloat(R.styleable.MultipleGridRecyclerView_aspect_ratio, DEFAULT_ASPECT_RATIO);
-      loadingResourceId = a.getResourceId(R.styleable.MultipleGridRecyclerView_loading_view_layout, DEFAULT_LOADING_VIEW_RESOURCE);
-      emptyResourceId = a.getResourceId(R.styleable.MultipleGridRecyclerView_empty_view_layout, DEFAULT_EMPTY_VIEW_RESOURCE);
+      cellAspectRatio =
+          a.getFloat(R.styleable.MultipleGridRecyclerView_aspect_ratio, DEFAULT_ASPECT_RATIO);
+      loadingResourceId = a.getResourceId(R.styleable.MultipleGridRecyclerView_loading_view_layout,
+          DEFAULT_LOADING_VIEW_RESOURCE);
+      emptyResourceId = a.getResourceId(R.styleable.MultipleGridRecyclerView_empty_view_layout,
+          DEFAULT_EMPTY_VIEW_RESOURCE);
     } finally {
       a.recycle();
     }
-
   }
 
   private void initAdapter() {
@@ -183,6 +185,30 @@ public class MultipleGridRecyclerView extends FrameLayout {
     recyclerView.setLayoutManager(layoutManager);
   }
 
+  public void setEmptyViewLayout(View emptyViewLayout) {
+    this.emptyViewLayout = emptyViewLayout;
+  }
+
+  public void setEmptyViewLayoutByIdRes(@IdRes int emptyViewLayoutIdRes) {
+
+  }
+
+  public void setEmptyViewLayoutByLayoutRes(@LayoutRes int emptyViewLayoutLayoutRes) {
+
+  }
+
+  public void setLoadingViewLayout(View loadingViewLayout) {
+    this.loadingViewLayout = loadingViewLayout;
+  }
+
+  public void setLoadingViewLayoutIdRes(@IdRes int loadingViewLayoutIdRes) {
+
+  }
+
+  public void setLoadingViewLayoutByLayoutRes(@LayoutRes int loadingViewLayoutLayoutRes) {
+
+  }
+
   public void setRefreshing(boolean refreshing) {
     swipeRefreshLayout.setRefreshing(refreshing);
   }
@@ -254,7 +280,7 @@ public class MultipleGridRecyclerView extends FrameLayout {
   }
 
   public void showLoadingView(boolean isLoading) {
-    loadingViewLayout.setVisibility((isLoading)? VISIBLE : GONE);
+    loadingViewLayout.setVisibility((isLoading) ? VISIBLE : GONE);
   }
 
   public void showEmptyView() {

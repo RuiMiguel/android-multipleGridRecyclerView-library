@@ -3,8 +3,6 @@
     <attr format="dimension" name="columns"/>
     <attr format="dimension" name="aspect_ratio"/>
     <attr format="reference" name="empty_view_layout"/>
-    <attr format="reference" name="recycler_view_layout"/>
     <attr format="reference" name="loading_view_layout"/>
-
   </declare-styleable>
 </resources>
