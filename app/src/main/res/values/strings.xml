@@ -1,3 +1,7 @@
 <resources>
   <string name="app_name">MultipleGridRecyclerView_demo</string>
+  <string name="menu_1column_mode">List</string>
+  <string name="menu_2columns_mode_text">Grid 2</string>
+  <string name="menu_3columns_mode_text">Grid 3</string>
+  <string name="menu_4columns_mode_text">Grid 4</string>
 </resources>

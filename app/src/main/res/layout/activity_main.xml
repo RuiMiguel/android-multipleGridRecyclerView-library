@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.ruialonso.multiplegridrecyclerview_demo.MainActivity"
+    >
+
+  <com.ruialonso.multiplegridrecyclerview.MultipleGridRecyclerView
+      android:id="@+id/multiple_grid_recycler_view"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      />
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@drawable/background_label_fab"
+      android:orientation="horizontal"
+      app:layout_anchor="@id/multiple_grid_recycler_view"
+      app:layout_anchorGravity="bottom|center_horizontal"
+      >
+    <TextView
+        android:id="@+id/columns_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="10dp"
+        />
+    <TextView
+        android:id="@+id/ratio_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="10dp"
+        />
+  </LinearLayout>
+
+  <com.getbase.floatingactionbutton.FloatingActionsMenu
+      android:id="@+id/floating_action_data_menu"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="10dp"
+      app:layout_anchor="@id/multiple_grid_recycler_view"
+      app:layout_anchorGravity="bottom|right|end"
+      fab:fab_addButtonColorNormal="?attr/colorPrimary"
+      fab:fab_addButtonSize="normal"
+      fab:fab_labelStyle="@style/FloatingActionButtonText"
+      fab:fab_labelsPosition="left"
+      >
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_button_add_cellimage_3x1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_colorNormal="?attr/colorAccent"
+        fab:fab_icon="@android:drawable/ic_menu_add"
+        fab:fab_size="mini"
+        fab:fab_title="Add CellImage 3x1"
+        />
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_button_add_cellimage_2x2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_colorNormal="?attr/colorAccent"
+        fab:fab_icon="@android:drawable/ic_menu_add"
+        fab:fab_size="mini"
+        fab:fab_title="Add CellImage 2x2"
+        />
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_button_add_cellimage_1x1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_colorNormal="?attr/colorAccent"
+        fab:fab_icon="@android:drawable/ic_menu_add"
+        fab:fab_size="mini"
+        fab:fab_title="Add CellImage 1x1"
+        />
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_button_add_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_colorNormal="?attr/colorAccent"
+        fab:fab_icon="@android:drawable/ic_menu_add"
+        fab:fab_size="mini"
+        fab:fab_title="Add Image"
+        />
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_button_add_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_colorNormal="?attr/colorAccent"
+        fab:fab_icon="@android:drawable/ic_menu_add"
+        fab:fab_size="mini"
+        fab:fab_title="Add Text"
+        />
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_button_clear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_colorNormal="?attr/colorAccent"
+        fab:fab_icon="@android:drawable/ic_menu_delete"
+        fab:fab_size="mini"
+        fab:fab_title="Clear"
+        />
+  </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+  <com.getbase.floatingactionbutton.FloatingActionsMenu
+      android:id="@+id/floating_action_aspect_menu"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="10dp"
+      app:layout_anchor="@id/multiple_grid_recycler_view"
+      app:layout_anchorGravity="bottom|left|start"
+      fab:fab_addButtonColorNormal="?attr/colorPrimary"
+      fab:fab_addButtonSize="normal"
+      fab:fab_labelStyle="@style/FloatingActionButtonText"
+      fab:fab_labelsPosition="right"
+      >
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_button_more_columns"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_colorNormal="?attr/colorAccent"
+        fab:fab_icon="@android:drawable/ic_menu_add"
+        fab:fab_size="mini"
+        fab:fab_title="+ Columns"
+        />
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_button_less_columns"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_colorNormal="?attr/colorAccent"
+        fab:fab_icon="@android:drawable/ic_menu_delete"
+        fab:fab_size="mini"
+        fab:fab_title="- Columns"
+        />
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_button_increase_ratio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_colorNormal="?attr/colorAccent"
+        fab:fab_icon="@android:drawable/ic_menu_add"
+        fab:fab_size="mini"
+        fab:fab_title="Ratio +0.1"
+        />
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_button_decrease_ratio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_colorNormal="?attr/colorAccent"
+        fab:fab_icon="@android:drawable/ic_menu_delete"
+        fab:fab_size="mini"
+        fab:fab_title="Ratio -0.1"
+        />
+
+  </com.getbase.floatingactionbutton.FloatingActionsMenu>
+</android.support.design.widget.CoordinatorLayout>
