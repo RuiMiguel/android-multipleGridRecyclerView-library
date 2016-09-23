@@ -7,30 +7,23 @@ import java.util.List;
 
 public class DataGenerator {
 
-  public static List<Object> generateRandomImageDataList(int num, int width) {
+  public static List<Object> generateRandomDataList(int num, int width) {
     ArrayList<Object> data = new ArrayList<>();
     for (int i = 0; i < num; i++) {
-      ImageWidget element;
-
       if (i % 2 == 0) {
-        element = new ImageWidget("http://placeimg.com/" + width + "/" + 100 + "/any");
-      } else if (i % 2 == 1) {
-        element = new ImageWidget("http://placeimg.com/" + (width + 100) + "/" + 100 + "/any");
+        data.add(generateRandomImageData(width));
       } else {
-        element = new ImageWidget("http://placeimg.com/" + (width - 100) + "/" + 100 + "/any");
+        data.add(generateRandomTextData(i));
       }
-
-      data.add(element);
     }
     return data;
   }
 
-  public static List<Object> generateRandomTextDataList(int num, int width) {
-    ArrayList<Object> data = new ArrayList<>();
-    for (int i = 0; i < num; i++) {
-      TextWidget element = new TextWidget("item" + i);
-      data.add(element);
-    }
-    return data;
+  public static ImageWidget generateRandomImageData(int width) {
+    return new ImageWidget("http://placeimg.com/" + width + "/" + 100 + "/any");
+  }
+
+  public static TextWidget generateRandomTextData(int index) {
+    return new TextWidget("item" + index);
   }
 }

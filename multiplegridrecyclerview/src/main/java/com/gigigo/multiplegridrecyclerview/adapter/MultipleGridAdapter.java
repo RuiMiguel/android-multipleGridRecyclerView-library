@@ -45,9 +45,7 @@ public class MultipleGridAdapter<V> extends RecyclerView.Adapter<MultipleGridVie
   }
 
   @Override public MultipleGridViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    //  View view = LayoutInflater.from(context).inflate(R.layout.content_item_element, parent, false);
-    MultipleGridViewHolder viewHolder =
-        viewHolderFactory.create(valueClassTypes.get(viewType), parent);
+    MultipleGridViewHolder viewHolder = viewHolderFactory.create(valueClassTypes.get(viewType), parent);
     bindListeners(viewHolder);
     return viewHolder;
   }

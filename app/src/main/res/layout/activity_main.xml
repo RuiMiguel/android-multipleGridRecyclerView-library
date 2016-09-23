@@ -17,7 +17,7 @@
       />
 
   <com.getbase.floatingactionbutton.FloatingActionsMenu
-      android:id="@+id/floating_action_menu"
+      android:id="@+id/floating_action_data_menu"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_margin="16dp"
@@ -38,13 +38,22 @@
         fab:fab_title="Load"
         />
     <com.getbase.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floating_action_button_add"
+        android:id="@+id/floating_action_button_add_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         fab:fab_colorNormal="?attr/colorAccent"
         fab:fab_icon="@android:drawable/ic_menu_add"
         fab:fab_size="mini"
-        fab:fab_title="Add"
+        fab:fab_title="Add Image"
+        />
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_button_add_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_colorNormal="?attr/colorAccent"
+        fab:fab_icon="@android:drawable/ic_menu_add"
+        fab:fab_size="mini"
+        fab:fab_title="Add Text"
         />
     <com.getbase.floatingactionbutton.FloatingActionButton
         android:id="@+id/floating_action_button_clear"
@@ -54,6 +63,56 @@
         fab:fab_icon="@android:drawable/ic_menu_delete"
         fab:fab_size="mini"
         fab:fab_title="Clear"
+        />
+  </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+  <com.getbase.floatingactionbutton.FloatingActionsMenu
+      android:id="@+id/floating_action_aspect_menu"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="16dp"
+      app:layout_anchor="@id/multiple_grid_recycler_view"
+      app:layout_anchorGravity="bottom|left|start"
+      fab:fab_addButtonColorNormal="?attr/colorPrimary"
+      fab:fab_addButtonSize="normal"
+      fab:fab_labelStyle="@style/FloatingActionButtonText"
+      fab:fab_labelsPosition="left"
+      >
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_button_more_columns"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_colorNormal="?attr/colorAccent"
+        fab:fab_icon="@android:drawable/ic_menu_search"
+        fab:fab_size="mini"
+        fab:fab_title="+ Columns"
+        />
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_button_less_columns"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_colorNormal="?attr/colorAccent"
+        fab:fab_icon="@android:drawable/ic_menu_add"
+        fab:fab_size="mini"
+        fab:fab_title="- Columns"
+        />
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_button_increase_ratio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_colorNormal="?attr/colorAccent"
+        fab:fab_icon="@android:drawable/ic_menu_add"
+        fab:fab_size="mini"
+        fab:fab_title="Ratio +0.1"
+        />
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_button_decrease_ratio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_colorNormal="?attr/colorAccent"
+        fab:fab_icon="@android:drawable/ic_menu_delete"
+        fab:fab_size="mini"
+        fab:fab_title="Ratio -0.1"
         />
 
   </com.getbase.floatingactionbutton.FloatingActionsMenu>

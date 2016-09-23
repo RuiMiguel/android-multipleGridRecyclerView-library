@@ -3,7 +3,6 @@ package com.gigigo.multiplegridrecyclerview;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -108,13 +107,21 @@ public class MultipleGridRecyclerView extends FrameLayout {
   }
 
   private void initMultipleGridLayoutManager() {
+    configureLayoutManager(gridColumns, cellAspectRatio);
+
+    recyclerView.setLayoutManager(layoutManager);
+
+    setMultipleGridLayoutManager(layoutManager);
+  }
+
+  private void configureLayoutManager(final int gridColumns, float cellAspectRatio) {
     layoutManager = new SpannedGridLayoutManager(new SpannedGridLayoutManager.GridSpanLookup() {
       @Override public SpannedGridLayoutManager.SpanInfo getSpanInfo(int position) {
         Object element = adapter.getItem(position);
 
         int colSpan, rowSpan;
         if (element instanceof Widget) {
-          colSpan = ((Widget) element).getColumn();
+          colSpan = Math.max(((Widget) element).getColumn(), gridColumns);
           rowSpan = ((Widget) element).getRow();
         } else {
           colSpan = gridColumns;
@@ -124,9 +131,6 @@ public class MultipleGridRecyclerView extends FrameLayout {
         return new SpannedGridLayoutManager.SpanInfo(colSpan, rowSpan);
       }
     }, gridColumns, cellAspectRatio);
-    recyclerView.setLayoutManager(layoutManager);
-
-    setMultipleGridLayoutManager(layoutManager);
   }
 
   private void initItemDecoration() {
@@ -136,7 +140,13 @@ public class MultipleGridRecyclerView extends FrameLayout {
 
   public void setGridColumns(int gridColumns) {
     this.gridColumns = gridColumns;
-    this.layoutManager = new GridLayoutManager(getContext(), gridColumns);
+    configureLayoutManager(gridColumns, cellAspectRatio);
+    setMultipleGridLayoutManager(this.layoutManager);
+  }
+
+  public void setCellAspectRatio(float cellAspectRatio) {
+    this.cellAspectRatio = cellAspectRatio;
+    configureLayoutManager(gridColumns, cellAspectRatio);
     setMultipleGridLayoutManager(this.layoutManager);
   }
 
