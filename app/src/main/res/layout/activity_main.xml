@@ -48,7 +48,7 @@
       android:id="@+id/floating_action_data_menu"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_margin="16dp"
+      android:layout_margin="10dp"
       app:layout_anchor="@id/multiple_grid_recycler_view"
       app:layout_anchorGravity="bottom|right|end"
       fab:fab_addButtonColorNormal="?attr/colorPrimary"
@@ -57,13 +57,31 @@
       fab:fab_labelsPosition="left"
       >
     <com.getbase.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floating_action_button_load"
+        android:id="@+id/floating_action_button_add_cellimage_3x1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         fab:fab_colorNormal="?attr/colorAccent"
-        fab:fab_icon="@android:drawable/ic_menu_search"
+        fab:fab_icon="@android:drawable/ic_menu_add"
         fab:fab_size="mini"
-        fab:fab_title="Load"
+        fab:fab_title="Add CellImage 3x1"
+        />
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_button_add_cellimage_2x2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_colorNormal="?attr/colorAccent"
+        fab:fab_icon="@android:drawable/ic_menu_add"
+        fab:fab_size="mini"
+        fab:fab_title="Add CellImage 2x2"
+        />
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_button_add_cellimage_1x1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_colorNormal="?attr/colorAccent"
+        fab:fab_icon="@android:drawable/ic_menu_add"
+        fab:fab_size="mini"
+        fab:fab_title="Add CellImage 1x1"
         />
     <com.getbase.floatingactionbutton.FloatingActionButton
         android:id="@+id/floating_action_button_add_image"
@@ -98,7 +116,7 @@
       android:id="@+id/floating_action_aspect_menu"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_margin="16dp"
+      android:layout_margin="10dp"
       app:layout_anchor="@id/multiple_grid_recycler_view"
       app:layout_anchorGravity="bottom|left|start"
       fab:fab_addButtonColorNormal="?attr/colorPrimary"

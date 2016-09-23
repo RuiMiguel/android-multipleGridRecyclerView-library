@@ -221,10 +221,12 @@ public class SpannedGridLayoutManager extends RecyclerView.LayoutManager {
                 }
             }
             int firstPositionOfLastRow = getFirstPositionInSpannedRow(lastVisibleRow);
-            int lastRowTop = getDecoratedTop(
-                    getChildAt(firstPositionOfLastRow - firstVisiblePosition));
-            if (lastRowTop - scrolled > getHeight()) { // last spanned row scrolled out
-                recycleRow(lastVisibleRow, recycler, state);
+            View childAt = getChildAt(firstPositionOfLastRow - firstVisiblePosition);
+            if (childAt != null) {
+                int lastRowTop = getDecoratedTop(childAt);
+                if (lastRowTop - scrolled > getHeight()) { // last spanned row scrolled out
+                    recycleRow(lastVisibleRow, recycler, state);
+                }
             }
         } else { // scrolling content up
             int bottom = getDecoratedBottom(getChildAt(getChildCount() - 1));

@@ -1,5 +1,7 @@
 package com.gigigo.multiplegridrecyclerview_demo;
 
+import com.gigigo.multiplegridrecyclerview.entities.Widget;
+import com.gigigo.multiplegridrecyclerview_demo.recyclerview.CellImageWidget;
 import com.gigigo.multiplegridrecyclerview_demo.recyclerview.ImageWidget;
 import com.gigigo.multiplegridrecyclerview_demo.recyclerview.TextWidget;
 import java.util.ArrayList;
@@ -11,7 +13,7 @@ public class DataGenerator {
     ArrayList<Object> data = new ArrayList<>();
     for (int i = 0; i < num; i++) {
       if (i % 2 == 0) {
-        data.add(generateRandomImageData(width));
+        data.add(generateRandomImageData());
       } else {
         data.add(generateRandomTextData(i));
       }
@@ -19,8 +21,16 @@ public class DataGenerator {
     return data;
   }
 
-  public static ImageWidget generateRandomImageData(int width) {
-    return new ImageWidget("http://placeimg.com/" + width + "/" + 100 + "/any");
+  public static ImageWidget generateRandomImageData() {
+    return new ImageWidget("http://placeimg.com/200/100/any");
+  }
+
+  public static CellImageWidget generateRandomCellImageData(int column, int row) {
+    CellImageWidget imageWidget = new CellImageWidget();
+    imageWidget.setData(new ImageWidget("http://placeimg.com/200/100/any"));
+    imageWidget.setColumn(column);
+    imageWidget.setRow(row);
+    return imageWidget;
   }
 
   public static TextWidget generateRandomTextData(int index) {

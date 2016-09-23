@@ -3,18 +3,25 @@ package com.gigigo.multiplegridrecyclerview_demo.recyclerview;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
 import android.widget.Toast;
 import com.gigigo.multiplegridrecyclerview.viewholder.MultipleGridViewHolder;
 import com.gigigo.multiplegridrecyclerview_demo.R;
+import com.squareup.picasso.Picasso;
 
-public class TextViewHolder extends MultipleGridViewHolder<TextWidget> {
+public class CellImageViewHolder extends MultipleGridViewHolder<CellImageWidget> {
 
-  private TextView textView;
+  private final Picasso picasso;
+  private ImageView imageView;
 
-  public TextViewHolder(Context context, ViewGroup parent) {
-    super(context, parent, R.layout.content_item_text_element);
-    textView = (TextView) this.itemView.findViewById(R.id.text_view);
+  public CellImageViewHolder(Context context, ViewGroup parent) {
+    this(context, parent, Picasso.with(context));
+  }
+
+  public CellImageViewHolder(Context context, ViewGroup parent, Picasso picasso) {
+    super(context, parent, R.layout.content_item_image_element);
+    this.picasso = picasso;
+    imageView = (ImageView) this.itemView.findViewById(R.id.image_view);
 
     bindListeners();
   }
@@ -42,13 +49,7 @@ public class TextViewHolder extends MultipleGridViewHolder<TextWidget> {
     });
   }
 
-  @Override public void bindTo(TextWidget item, int position) {
-    textView.setText(item.getText());
-    if(position % 2 == 0) {
-      itemView.setBackgroundResource(R.color.colorPrimary);
-    }
-    else{
-      itemView.setBackgroundResource(R.color.colorPrimaryDark);
-    }
+  @Override public void bindTo(CellImageWidget item, int position) {
+    picasso.load(item.getImageUrl()).placeholder(R.drawable.placeholder).into(imageView);
   }
 }

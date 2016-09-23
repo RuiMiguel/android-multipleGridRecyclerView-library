@@ -38,8 +38,7 @@ public abstract class MultipleGridViewHolder<V> extends RecyclerView.ViewHolder
     this.itemLongClickListener = itemLongClickListener;
   }
 
-  public void setItemDragListener(
-      MultipleGridViewHolder.OnItemDragListener itemDragClickListener) {
+  public void setItemDragListener(MultipleGridViewHolder.OnItemDragListener itemDragClickListener) {
     this.itemDragListener = itemDragClickListener;
   }
 
@@ -62,7 +61,7 @@ public abstract class MultipleGridViewHolder<V> extends RecyclerView.ViewHolder
     return itemDragListener.OnItemDragged(getLayoutPosition(), v);
   }
 
-  public abstract void bindTo(V value);
+  public abstract void bindTo(V value, int position);
 
   public interface OnItemClickListener {
     void onItemClick(final int position, View view);

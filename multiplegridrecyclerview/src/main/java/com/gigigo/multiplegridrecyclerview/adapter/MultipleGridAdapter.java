@@ -45,7 +45,8 @@ public class MultipleGridAdapter<V> extends RecyclerView.Adapter<MultipleGridVie
   }
 
   @Override public MultipleGridViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    MultipleGridViewHolder viewHolder = viewHolderFactory.create(valueClassTypes.get(viewType), parent);
+    MultipleGridViewHolder viewHolder =
+        viewHolderFactory.create(valueClassTypes.get(viewType), parent);
     bindListeners(viewHolder);
     return viewHolder;
   }
@@ -62,8 +63,7 @@ public class MultipleGridAdapter<V> extends RecyclerView.Adapter<MultipleGridVie
     this.itemClickListener = itemClickListener;
   }
 
-  public void setItemLongClickListener(
-      MultipleGridViewHolder.OnItemLongClickListener itemLongClickListener) {
+  public void setItemLongClickListener(MultipleGridViewHolder.OnItemLongClickListener itemLongClickListener) {
     this.itemLongClickListener = itemLongClickListener;
   }
 
@@ -72,12 +72,16 @@ public class MultipleGridAdapter<V> extends RecyclerView.Adapter<MultipleGridVie
   }
 
   @Override public void onBindViewHolder(MultipleGridViewHolder holder, int position) {
-    holder.bindTo(data.get(position));
+    holder.bindTo(data.get(position), position);
+  }
+
+  @Override public int getItemViewType(int position) {
+    return valueClassTypes.indexOf(data.get(position).getClass());
   }
 
   public void add(V item) {
     data.add(item);
-    notifyItemInserted(data.size());
+    notifyDataSetChanged();
   }
 
   public void addAt(V item, int position) {

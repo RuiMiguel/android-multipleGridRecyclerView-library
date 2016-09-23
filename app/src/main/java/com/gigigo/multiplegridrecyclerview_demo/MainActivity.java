@@ -11,17 +11,23 @@ import android.widget.Toast;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.gigigo.multiplegridrecyclerview.MultipleGridRecyclerView;
+import com.gigigo.multiplegridrecyclerview.viewholder.MultipleGridViewHolder;
+import com.gigigo.multiplegridrecyclerview_demo.recyclerview.CellImageViewHolder;
+import com.gigigo.multiplegridrecyclerview_demo.recyclerview.CellImageWidget;
 import com.gigigo.multiplegridrecyclerview_demo.recyclerview.ImageViewHolder;
 import com.gigigo.multiplegridrecyclerview_demo.recyclerview.ImageWidget;
 import com.gigigo.multiplegridrecyclerview_demo.recyclerview.TextViewHolder;
 import com.gigigo.multiplegridrecyclerview_demo.recyclerview.TextWidget;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
   TextView columnTextView;
   TextView ratioTextView;
   FloatingActionsMenu floatingDataActionsMenu;
-  FloatingActionButton floatingActionButtonLoad;
+  FloatingActionButton floatingActionButtonAddCellImage3x1;
+  FloatingActionButton floatingActionButtonAddCellImage2x2;
+  FloatingActionButton floatingActionButtonAddCellImage1x1;
   FloatingActionButton floatingActionButtonAddImage;
   FloatingActionButton floatingActionButtonAddText;
   FloatingActionButton floatingActionButtonClear;
@@ -65,12 +71,30 @@ public class MainActivity extends AppCompatActivity {
           }
         });
 
-    floatingActionButtonLoad =
-        (FloatingActionButton) findViewById(R.id.floating_action_button_load);
-    floatingActionButtonLoad.setOnClickListener(new View.OnClickListener() {
+    floatingActionButtonAddCellImage3x1 =
+        (FloatingActionButton) findViewById(R.id.floating_action_button_add_cellimage_3x1);
+    floatingActionButtonAddCellImage3x1.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
         floatingDataActionsMenu.collapse();
-        loadData();
+        addCellImageData(3, 1);
+      }
+    });
+
+    floatingActionButtonAddCellImage2x2 =
+        (FloatingActionButton) findViewById(R.id.floating_action_button_add_cellimage_2x2);
+    floatingActionButtonAddCellImage2x2.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        floatingDataActionsMenu.collapse();
+        addCellImageData(2, 2);
+      }
+    });
+
+    floatingActionButtonAddCellImage1x1 =
+        (FloatingActionButton) findViewById(R.id.floating_action_button_add_cellimage_1x1);
+    floatingActionButtonAddCellImage1x1.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        floatingDataActionsMenu.collapse();
+        addCellImageData(1, 1);
       }
     });
 
@@ -161,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
 
     multipleGridRecyclerView.setOnRefreshListener(new MultipleGridRecyclerView.OnRefreshListener() {
       @Override public void onRefresh() {
+        loadData();
         new Handler().postDelayed(new Runnable() {
           @Override public void run() {
             multipleGridRecyclerView.setRefreshing(false);
@@ -168,9 +193,15 @@ public class MainActivity extends AppCompatActivity {
         }, 3000);
       }
     });
+
+    bindListeners();
+
+    multipleGridRecyclerView.loadData(new ArrayList<>());
   }
 
   private void setAdapterDataViewHolders() {
+    multipleGridRecyclerView.setAdapterDataViewHolder(CellImageWidget.class,
+        CellImageViewHolder.class);
     multipleGridRecyclerView.setAdapterDataViewHolder(ImageWidget.class, ImageViewHolder.class);
     multipleGridRecyclerView.setAdapterDataViewHolder(TextWidget.class, TextViewHolder.class);
   }
@@ -184,11 +215,11 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void updateRatioInfo(float cellAspectRatio) {
-    ratioTextView.setText("Cell aspect ratio: "+cellAspectRatio);
+    ratioTextView.setText("Cell aspect ratio: " + cellAspectRatio);
   }
 
   private void updateColumnInfo(int columns) {
-    columnTextView.setText("Grid columns: "+columns);
+    columnTextView.setText("Grid columns: " + columns);
   }
 
   private void loadData() {
@@ -201,12 +232,16 @@ public class MainActivity extends AppCompatActivity {
         DataGenerator.generateRandomDataList(30, width / grid_columns));
   }
 
+  private void addCellImageData(int column, int row) {
+    multipleGridRecyclerView.add(DataGenerator.generateRandomCellImageData(column, row));
+  }
+
   private void addImageData() {
-    multipleGridRecyclerView.add(DataGenerator.generateRandomTextData(99));
+    multipleGridRecyclerView.add(DataGenerator.generateRandomImageData());
   }
 
   private void addTextData() {
-    multipleGridRecyclerView.add(DataGenerator.generateRandomImageData(200));
+    multipleGridRecyclerView.add(DataGenerator.generateRandomTextData(99));
   }
 
   private void moreColumns() {
@@ -253,5 +288,28 @@ public class MainActivity extends AppCompatActivity {
 
   private void clearData() {
     multipleGridRecyclerView.clearData();
+  }
+
+  private void bindListeners() {
+    multipleGridRecyclerView.setItemClickListener(new MultipleGridViewHolder.OnItemClickListener() {
+      @Override public void onItemClick(int position, View view) {
+        Toast.makeText(view.getContext(), "Clicked position: " + position,
+            Toast.LENGTH_SHORT).show();
+      }
+    });
+    multipleGridRecyclerView.setItemLongClickListener(new MultipleGridViewHolder.OnItemLongClickListener() {
+      @Override public boolean onItemLongClicked(int position, View view) {
+        Toast.makeText(view.getContext(), "Long clicked position: " + position,
+            Toast.LENGTH_SHORT).show();
+        return false;
+      }
+    });
+    multipleGridRecyclerView.setItemDragListener(new MultipleGridViewHolder.OnItemDragListener() {
+      @Override public boolean OnItemDragged(int position, View view) {
+        Toast.makeText(view.getContext(), "Dragged position: " + position,
+            Toast.LENGTH_SHORT).show();
+        return false;
+      }
+    });
   }
 }

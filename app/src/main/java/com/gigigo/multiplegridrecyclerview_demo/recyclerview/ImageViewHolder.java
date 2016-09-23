@@ -14,6 +14,10 @@ public class ImageViewHolder extends MultipleGridViewHolder<ImageWidget> {
   private final Picasso picasso;
   private ImageView imageView;
 
+  public ImageViewHolder(Context context, ViewGroup parent) {
+    this(context, parent, Picasso.with(context));
+  }
+
   public ImageViewHolder(Context context, ViewGroup parent, Picasso picasso) {
     super(context, parent, R.layout.content_item_image_element);
     this.picasso = picasso;
@@ -23,29 +27,17 @@ public class ImageViewHolder extends MultipleGridViewHolder<ImageWidget> {
   }
 
   public void bindListeners() {
-    setItemClickListener(new OnItemClickListener() {
-      @Override public void onItemClick(int position, View view) {
-        Toast.makeText(view.getContext(), "Clicked position: " + getLayoutPosition(),
-            Toast.LENGTH_SHORT).show();
-      }
-    });
-    setItemLongClickListener(new OnItemLongClickListener() {
-      @Override public boolean onItemLongClicked(int position, View view) {
-        Toast.makeText(view.getContext(), "Long clicked position: " + getLayoutPosition(),
-            Toast.LENGTH_SHORT).show();
-        return false;
-      }
-    });
-    setItemDragListener(new OnItemDragListener() {
-      @Override public boolean OnItemDragged(int position, View view) {
-        Toast.makeText(view.getContext(), "Dragged position: " + getLayoutPosition(),
+    itemView.setOnClickListener(this);
+    itemView.setOnLongClickListener(new View.OnLongClickListener() {
+      @Override public boolean onLongClick(View view) {
+        Toast.makeText(view.getContext(), "Long clicked from viewHolder - position: " + getLayoutPosition(),
             Toast.LENGTH_SHORT).show();
         return false;
       }
     });
   }
 
-  @Override public void bindTo(ImageWidget item) {
+  @Override public void bindTo(ImageWidget item, int position) {
     picasso.load(item.getImageUrl()).placeholder(R.drawable.placeholder).into(imageView);
   }
 }
