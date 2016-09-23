@@ -184,11 +184,11 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void updateRatioInfo(float cellAspectRatio) {
-    ratioTextView.setText("Cell aspect ratio= "+cellAspectRatio);
+    ratioTextView.setText("Cell aspect ratio: "+cellAspectRatio);
   }
 
   private void updateColumnInfo(int columns) {
-    columnTextView.setText("Grid columns= "+columns);
+    columnTextView.setText("Grid columns: "+columns);
   }
 
   private void loadData() {
@@ -242,10 +242,10 @@ public class MainActivity extends AppCompatActivity {
 
   private void decreaseRatio() {
     float ratio = multipleGridRecyclerView.getCellAspectRatio();
-    if (ratio > 0.1f) {
+    if (ratio <= 0.1f) {
       floatingActionButtonDecreaseRatio.setEnabled(false);
     } else {
-      ratio += 0.1f;
+      ratio -= 0.1f;
       multipleGridRecyclerView.setCellAspectRatio(ratio);
       updateRatioInfo(ratio);
     }

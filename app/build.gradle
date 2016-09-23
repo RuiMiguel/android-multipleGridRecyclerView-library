@@ -24,6 +24,7 @@ android {
 dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
   compile rootProject.ext.libraries.androidSupportV7
+  //compile rootProject.ext.libraries.constraintLayout
 
   compile rootProject.ext.libraries.floatingactionbutton
   compile rootProject.ext.libraries.picasso

@@ -3,6 +3,7 @@ allprojects {
     libraries = [androidSupportV7    : 'com.android.support:appcompat-v7:23.3.0',
                  androidSupportDesign: 'com.android.support:design:23.3.0',
                  recyclerViewV7      : 'com.android.support:recyclerview-v7:23.3.0',
+                 constraintLayout    : 'com.android.support.constraint:constraint-layout:1.0.0-alpha1',
 
 
                  butterknife         : 'com.jakewharton:butterknife:8.4.0',
