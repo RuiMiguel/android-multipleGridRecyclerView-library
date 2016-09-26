@@ -1,11 +1,11 @@
 package com.ruialonso.multiplegridrecyclerview.entities;
 
-public class Widget<T> {
+public class Cell<T> {
   private T data;
   private int column;
   private int row;
 
-  public Widget() {
+  public Cell() {
   }
 
   public T getData() {

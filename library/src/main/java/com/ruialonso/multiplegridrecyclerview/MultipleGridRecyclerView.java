@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import com.ruialonso.multiplegridrecyclerview.adapter.MultipleGridAdapter;
 import com.ruialonso.multiplegridrecyclerview.decoration.GridItemDividerDecoration;
-import com.ruialonso.multiplegridrecyclerview.entities.Widget;
+import com.ruialonso.multiplegridrecyclerview.entities.Cell;
 import com.ruialonso.multiplegridrecyclerview.layoutManager.SpannedGridLayoutManager;
 import com.ruialonso.multiplegridrecyclerview.viewholder.MultipleGridViewHolder;
 import java.util.List;
@@ -143,9 +143,9 @@ public class MultipleGridRecyclerView extends FrameLayout {
         Object element = adapter.getItem(position);
 
         int colSpan, rowSpan;
-        if (element instanceof Widget) {
-          colSpan = Math.min(((Widget) element).getColumn(), gridColumns);
-          rowSpan = ((Widget) element).getRow();
+        if (element instanceof Cell) {
+          colSpan = Math.min(((Cell) element).getColumn(), gridColumns);
+          rowSpan = ((Cell) element).getRow();
         } else {
           colSpan = gridColumns;
           rowSpan = 1;

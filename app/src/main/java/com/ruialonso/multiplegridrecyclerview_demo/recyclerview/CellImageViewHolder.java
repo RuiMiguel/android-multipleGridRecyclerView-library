@@ -50,6 +50,6 @@ public class CellImageViewHolder extends MultipleGridViewHolder<CellImageWidget>
   }
 
   @Override public void bindTo(CellImageWidget item, int position) {
-    picasso.load(item.getImageUrl()).placeholder(R.drawable.placeholder).into(imageView);
+    picasso.load(item.getData().getImageUrl()).placeholder(R.drawable.placeholder).into(imageView);
   }
 }

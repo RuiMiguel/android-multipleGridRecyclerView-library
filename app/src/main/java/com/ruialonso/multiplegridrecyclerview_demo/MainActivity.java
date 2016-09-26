@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
     int width = size.x;
     int grid_columns = 3;
     multipleGridRecyclerView.loadData(
-        DataGenerator.generateRandomDataList(30, width / grid_columns));
+        DataGenerator.generateRandomDataList(30));
   }
 
   private void addCellImageData(int column, int row) {
