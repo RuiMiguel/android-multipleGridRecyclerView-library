@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
   FloatingActionButton floatingActionButtonDecreaseRatio;
 
   private MultipleGridRecyclerView multipleGridRecyclerView;
+  private View emptyView;
+  private View loadingView;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -75,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
         (FloatingActionButton) findViewById(R.id.floating_action_button_add_cellimage_3x1);
     floatingActionButtonAddCellImage3x1.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-        floatingDataActionsMenu.collapse();
         addCellImageData(3, 1);
       }
     });
@@ -84,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
         (FloatingActionButton) findViewById(R.id.floating_action_button_add_cellimage_2x2);
     floatingActionButtonAddCellImage2x2.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-        floatingDataActionsMenu.collapse();
         addCellImageData(2, 2);
       }
     });
@@ -93,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
         (FloatingActionButton) findViewById(R.id.floating_action_button_add_cellimage_1x1);
     floatingActionButtonAddCellImage1x1.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-        floatingDataActionsMenu.collapse();
         addCellImageData(1, 1);
       }
     });
@@ -102,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
         (FloatingActionButton) findViewById(R.id.floating_action_button_add_image);
     floatingActionButtonAddImage.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-        floatingDataActionsMenu.collapse();
         addImageData();
       }
     });
@@ -111,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
         (FloatingActionButton) findViewById(R.id.floating_action_button_add_text);
     floatingActionButtonAddText.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-        floatingDataActionsMenu.collapse();
         addTextData();
       }
     });
@@ -120,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
         (FloatingActionButton) findViewById(R.id.floating_action_button_clear);
     floatingActionButtonClear.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-        floatingDataActionsMenu.collapse();
         clearData();
       }
     });
@@ -144,7 +140,6 @@ public class MainActivity extends AppCompatActivity {
         (FloatingActionButton) findViewById(R.id.floating_action_button_more_columns);
     floatingActionButtonMoreColumns.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-        floatingAspectActionsMenu.collapse();
         moreColumns();
       }
     });
@@ -153,7 +148,6 @@ public class MainActivity extends AppCompatActivity {
         (FloatingActionButton) findViewById(R.id.floating_action_button_less_columns);
     floatingActionButtonLessColumns.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-        floatingAspectActionsMenu.collapse();
         lessColumns();
       }
     });
@@ -162,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
         (FloatingActionButton) findViewById(R.id.floating_action_button_increase_ratio);
     floatingActionButtonIncreaseRatio.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-        floatingAspectActionsMenu.collapse();
         increaseRatio();
       }
     });
@@ -171,7 +164,6 @@ public class MainActivity extends AppCompatActivity {
         (FloatingActionButton) findViewById(R.id.floating_action_button_decrease_ratio);
     floatingActionButtonDecreaseRatio.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-        floatingAspectActionsMenu.collapse();
         decreaseRatio();
       }
     });
@@ -181,13 +173,21 @@ public class MainActivity extends AppCompatActivity {
     multipleGridRecyclerView =
         (MultipleGridRecyclerView) findViewById(R.id.multiple_grid_recycler_view);
 
+    emptyView = findViewById(R.id.empty_view);
+    loadingView = findViewById(R.id.loading_view);
+
+    multipleGridRecyclerView.setEmptyViewLayout(emptyView);
+    multipleGridRecyclerView.setLoadingViewLayout(loadingView);
+
     setAdapterDataViewHolders();
 
     multipleGridRecyclerView.setOnRefreshListener(new MultipleGridRecyclerView.OnRefreshListener() {
       @Override public void onRefresh() {
+        multipleGridRecyclerView.showLoadingView(true);
         loadData();
         new Handler().postDelayed(new Runnable() {
           @Override public void run() {
+            multipleGridRecyclerView.showLoadingView(false);
             multipleGridRecyclerView.setRefreshing(false);
           }
         }, 3000);

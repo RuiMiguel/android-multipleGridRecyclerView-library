@@ -186,7 +186,11 @@ public class MultipleGridRecyclerView extends FrameLayout {
   }
 
   public void setEmptyViewLayout(View emptyViewLayout) {
-    this.emptyViewLayout = emptyViewLayout;
+    this.emptyViewLayout.setVisibility(GONE);
+    if(emptyViewLayout != null) {
+      this.emptyViewLayout = emptyViewLayout;
+      this.emptyViewLayout.setVisibility(VISIBLE);
+    }
   }
 
   public void setEmptyViewLayoutByIdRes(@IdRes int emptyViewLayoutIdRes) {
@@ -198,7 +202,11 @@ public class MultipleGridRecyclerView extends FrameLayout {
   }
 
   public void setLoadingViewLayout(View loadingViewLayout) {
-    this.loadingViewLayout = loadingViewLayout;
+    this.loadingViewLayout.setVisibility(GONE);
+    if(loadingViewLayout != null) {
+      this.loadingViewLayout = loadingViewLayout;
+      this.loadingViewLayout.setVisibility(GONE);
+    }
   }
 
   public void setLoadingViewLayoutIdRes(@IdRes int loadingViewLayoutIdRes) {
@@ -251,8 +259,7 @@ public class MultipleGridRecyclerView extends FrameLayout {
   public void addData(List<?> data) {
     adapter.append(data);
 
-    emptyViewLayout.setVisibility(GONE);
-    recyclerViewLayout.setVisibility(VISIBLE);
+    showRecyclerView();
   }
 
   public boolean remove(Object item) {
@@ -270,8 +277,7 @@ public class MultipleGridRecyclerView extends FrameLayout {
   public void clearData() {
     adapter.clear();
 
-    recyclerViewLayout.setVisibility(GONE);
-    emptyViewLayout.setVisibility(VISIBLE);
+    showEmptyView();
   }
 
   public void showRecyclerView() {
