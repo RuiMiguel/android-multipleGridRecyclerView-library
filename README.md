@@ -1,13 +1,15 @@
 # MultipleGridRecyclerView
 RecyclerView + GridLayout multiple cells types + empty view + swipe to refresh in a CustomView
 
-Based on:
-* [EasyRecyclerAdapter] to perform Adapters and ViewHolder factory
-* [Plaid] for SpannedGridLayoutManager
+<img src="./screenshots/1.gif" width="50%" />
+
+<img src="./screenshots/1.png" width="24%" />
+<img src="./screenshots/2.png" width="24%" />
+<img src="./screenshots/3.png" width="24%" />
+<img src="./screenshots/4.png" width="24%" />
 
 ### Version
 2.0
-
 
 [EasyRecyclerAdapter]: <https://github.com/CarlosMChica/easyrecycleradapters>
 [Plaid]: <https://github.com/nickbutcher/plaid>
@@ -60,6 +62,10 @@ or
 ### Todos
 
  - 
+
+### Based on
+* [EasyRecyclerAdapter] to perform Adapters and ViewHolder factory
+* [Plaid] for SpannedGridLayoutManager
 
 License
 ----
