@@ -40,6 +40,10 @@
         />
   </LinearLayout>
 
+  <android.support.design.widget.FloatingActionButton
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      />
   <com.getbase.floatingactionbutton.FloatingActionsMenu
       android:id="@+id/floating_action_data_menu"
       android:layout_width="wrap_content"
