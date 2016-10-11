@@ -5,10 +5,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.ruialonso.multiplegridrecyclerview.viewholder.MultipleGridViewHolder;
+import com.gigigo.baserecycleradapter.viewholder.BaseViewHolder;
 import com.ruialonso.multiplegridrecyclerview_demo.R;
 
-public class TextViewHolder extends MultipleGridViewHolder<TextWidget> {
+public class TextViewHolder extends BaseViewHolder<TextWidget> {
 
   private TextView textView;
 

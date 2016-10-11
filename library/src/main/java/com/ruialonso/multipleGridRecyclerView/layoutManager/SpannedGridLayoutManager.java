@@ -385,7 +385,7 @@ public class SpannedGridLayoutManager extends RecyclerView.LayoutManager {
 
             // if we're spanning rows then record the 'first child position' as the first item
             // *in the row the spanned item starts*. i.e. the position might not actually sit
-            // within the row but it is the earliest position we need to render in order to fill
+            // within the row but it is the earliest position we need to bindTo in order to fill
             // the requested row.
             if (spanInfo.rowSpan > 1) {
                 int rowStartPosition = getFirstPositionInSpannedRow(row);

@@ -5,22 +5,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
-import com.ruialonso.multiplegridrecyclerview.viewholder.MultipleGridViewHolder;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
+import com.gigigo.baserecycleradapter.viewholder.BaseViewHolder;
+import com.gigigo.ui.imageloader.ImageLoader;
+import com.gigigo.ui.imageloader_glide.GlideImageLoaderImp;
 import com.ruialonso.multiplegridrecyclerview_demo.R;
-import com.squareup.picasso.Picasso;
 
-public class ImageViewHolder extends MultipleGridViewHolder<ImageWidget> {
+public class ImageViewHolder extends BaseViewHolder<ImageWidget> {
 
-  private final Picasso picasso;
+  private ImageLoader imageLoader;
   private ImageView imageView;
 
   public ImageViewHolder(Context context, ViewGroup parent) {
-    this(context, parent, Picasso.with(context));
-  }
-
-  public ImageViewHolder(Context context, ViewGroup parent, Picasso picasso) {
     super(context, parent, R.layout.content_item_image_element);
-    this.picasso = picasso;
+
+    RequestManager requestManager = Glide.with(parent.getContext());
+    this.imageLoader = new GlideImageLoaderImp(requestManager);
     imageView = (ImageView) this.itemView.findViewById(R.id.image_view);
 
     bindListeners();
@@ -38,6 +39,6 @@ public class ImageViewHolder extends MultipleGridViewHolder<ImageWidget> {
   }
 
   @Override public void bindTo(ImageWidget item, int position) {
-    picasso.load(item.getImageUrl()).placeholder(R.drawable.placeholder).into(imageView);
+    imageLoader.load(item.getImageUrl(), imageView, R.drawable.placeholder);
   }
 }

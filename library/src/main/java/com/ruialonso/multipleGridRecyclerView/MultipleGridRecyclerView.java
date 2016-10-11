@@ -2,6 +2,10 @@ package com.ruialonso.multiplegridrecyclerview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DimenRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,16 +14,18 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-import com.ruialonso.multiplegridrecyclerview.adapter.MultipleGridAdapter;
+import com.gigigo.baserecycleradapter.adapter.BaseRecyclerAdapter;
+import com.gigigo.baserecycleradapter.viewholder.BaseViewHolder;
 import com.ruialonso.multiplegridrecyclerview.decoration.GridItemDividerDecoration;
 import com.ruialonso.multiplegridrecyclerview.entities.Cell;
 import com.ruialonso.multiplegridrecyclerview.layoutManager.SpannedGridLayoutManager;
-import com.ruialonso.multiplegridrecyclerview.viewholder.MultipleGridViewHolder;
 import java.util.List;
 
 public class MultipleGridRecyclerView extends FrameLayout {
   private final int DEFAULT_COLUMNS = 3;
   private final float DEFAULT_ASPECT_RATIO = 0.77f;
+  private final @DimenRes int DEFAULT_DIVIDER_SIZE_RESOURCE = R.dimen.divider_size;
+  private final @ColorInt int DEFAULT_DIVIDER_COLOR = Color.WHITE;
   private final @IdRes int DEFAULT_LOADING_VIEW_RESOURCE = R.id.loading_view_layout;
   private final @IdRes int DEFAULT_EMPTY_VIEW_RESOURCE = R.id.empty_view_layout;
 
@@ -30,11 +36,13 @@ public class MultipleGridRecyclerView extends FrameLayout {
 
   private SwipeRefreshLayout swipeRefreshLayout;
   private RecyclerView recyclerView;
-  private MultipleGridAdapter adapter;
+  private BaseRecyclerAdapter adapter;
   private RecyclerView.LayoutManager layoutManager;
 
   private int gridColumns = DEFAULT_COLUMNS;
   private float cellAspectRatio = DEFAULT_ASPECT_RATIO;
+  private int dividerSize;
+  private @ColorInt int dividerColor;
   private @IdRes int loadingResourceId = DEFAULT_LOADING_VIEW_RESOURCE;
   private @IdRes int emptyResourceId = DEFAULT_EMPTY_VIEW_RESOURCE;
 
@@ -75,6 +83,10 @@ public class MultipleGridRecyclerView extends FrameLayout {
       gridColumns = a.getInteger(R.styleable.MultipleGridRecyclerView_columns, DEFAULT_COLUMNS);
       cellAspectRatio =
           a.getFloat(R.styleable.MultipleGridRecyclerView_aspect_ratio, DEFAULT_ASPECT_RATIO);
+      dividerSize = a.getDimensionPixelSize(R.styleable.MultipleGridRecyclerView_divider_size,
+          getResources().getDimensionPixelSize(DEFAULT_DIVIDER_SIZE_RESOURCE));
+      dividerColor = a.getColor(R.styleable.MultipleGridRecyclerView_divider_color, DEFAULT_DIVIDER_COLOR);
+
       loadingResourceId = a.getResourceId(R.styleable.MultipleGridRecyclerView_loading_view_layout,
           DEFAULT_LOADING_VIEW_RESOURCE);
       emptyResourceId = a.getResourceId(R.styleable.MultipleGridRecyclerView_empty_view_layout,
@@ -85,7 +97,7 @@ public class MultipleGridRecyclerView extends FrameLayout {
   }
 
   private void initAdapter() {
-    adapter = new MultipleGridAdapter(getContext());
+    adapter = new BaseRecyclerAdapter(getContext());
   }
 
   private void initRecyclerView() {
@@ -125,7 +137,7 @@ public class MultipleGridRecyclerView extends FrameLayout {
   }
 
   public void setAdapterDataViewHolder(Class valueClass,
-      Class<? extends MultipleGridViewHolder> viewHolder) {
+      Class<? extends BaseViewHolder> viewHolder) {
     adapter.bind(valueClass, viewHolder);
   }
 
@@ -157,8 +169,8 @@ public class MultipleGridRecyclerView extends FrameLayout {
   }
 
   private void initItemDecoration() {
-    recyclerView.addItemDecoration(new GridItemDividerDecoration(getContext(), R.dimen.divider_size,
-        R.color.bg_empty_list_color));
+    recyclerView.addItemDecoration(
+        new GridItemDividerDecoration(dividerSize, dividerColor));
   }
 
   public int getGridColumns() {
@@ -187,7 +199,7 @@ public class MultipleGridRecyclerView extends FrameLayout {
 
   public void setEmptyViewLayout(View emptyViewLayout) {
     this.emptyViewLayout.setVisibility(GONE);
-    if(emptyViewLayout != null) {
+    if (emptyViewLayout != null) {
       this.emptyViewLayout = emptyViewLayout;
       this.emptyViewLayout.setVisibility(VISIBLE);
     }
@@ -203,7 +215,7 @@ public class MultipleGridRecyclerView extends FrameLayout {
 
   public void setLoadingViewLayout(View loadingViewLayout) {
     this.loadingViewLayout.setVisibility(GONE);
-    if(loadingViewLayout != null) {
+    if (loadingViewLayout != null) {
       this.loadingViewLayout = loadingViewLayout;
       this.loadingViewLayout.setVisibility(GONE);
     }
@@ -225,16 +237,16 @@ public class MultipleGridRecyclerView extends FrameLayout {
     this.refreshListener = refreshListener;
   }
 
-  public void setItemClickListener(MultipleGridViewHolder.OnItemClickListener itemClickListener) {
+  public void setItemClickListener(BaseViewHolder.OnItemClickListener itemClickListener) {
     adapter.setItemClickListener(itemClickListener);
   }
 
   public void setItemLongClickListener(
-      MultipleGridViewHolder.OnItemLongClickListener itemLongClickListener) {
+      BaseViewHolder.OnItemLongClickListener itemLongClickListener) {
     adapter.setItemLongClickListener(itemLongClickListener);
   }
 
-  public void setItemDragListener(MultipleGridViewHolder.OnItemDragListener itemDragListener) {
+  public void setItemDragListener(BaseViewHolder.OnItemDragListener itemDragListener) {
     adapter.setItemDragListener(itemDragListener);
   }
 

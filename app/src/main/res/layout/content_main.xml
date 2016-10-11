@@ -2,11 +2,14 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     >
   <com.ruialonso.multiplegridrecyclerview.MultipleGridRecyclerView
       android:id="@+id/multiple_grid_recycler_view"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
+      app:divider_size="2dp"
+      app:divider_color="@android:color/white"
       />
   <FrameLayout
       android:id="@+id/empty_view"

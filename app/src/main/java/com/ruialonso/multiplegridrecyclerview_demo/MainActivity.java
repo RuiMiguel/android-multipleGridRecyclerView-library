@@ -10,8 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.gigigo.baserecycleradapter.viewholder.BaseViewHolder;
 import com.ruialonso.multiplegridrecyclerview.MultipleGridRecyclerView;
-import com.ruialonso.multiplegridrecyclerview.viewholder.MultipleGridViewHolder;
 import com.ruialonso.multiplegridrecyclerview_demo.recyclerview.CellImageViewHolder;
 import com.ruialonso.multiplegridrecyclerview_demo.recyclerview.CellImageWidget;
 import com.ruialonso.multiplegridrecyclerview_demo.recyclerview.ImageViewHolder;
@@ -291,20 +291,20 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void bindListeners() {
-    multipleGridRecyclerView.setItemClickListener(new MultipleGridViewHolder.OnItemClickListener() {
+    multipleGridRecyclerView.setItemClickListener(new BaseViewHolder.OnItemClickListener() {
       @Override public void onItemClick(int position, View view) {
         Toast.makeText(view.getContext(), "Clicked position: " + position,
             Toast.LENGTH_SHORT).show();
       }
     });
-    multipleGridRecyclerView.setItemLongClickListener(new MultipleGridViewHolder.OnItemLongClickListener() {
+    multipleGridRecyclerView.setItemLongClickListener(new BaseViewHolder.OnItemLongClickListener() {
       @Override public boolean onItemLongClicked(int position, View view) {
         Toast.makeText(view.getContext(), "Long clicked position: " + position,
             Toast.LENGTH_SHORT).show();
         return false;
       }
     });
-    multipleGridRecyclerView.setItemDragListener(new MultipleGridViewHolder.OnItemDragListener() {
+    multipleGridRecyclerView.setItemDragListener(new BaseViewHolder.OnItemDragListener() {
       @Override public boolean OnItemDragged(int position, View view) {
         Toast.makeText(view.getContext(), "Dragged position: " + position,
             Toast.LENGTH_SHORT).show();

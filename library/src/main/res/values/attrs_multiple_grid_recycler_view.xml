@@ -2,6 +2,8 @@
   <declare-styleable name="MultipleGridRecyclerView">
     <attr format="dimension" name="columns"/>
     <attr format="dimension" name="aspect_ratio"/>
+    <attr format="dimension" name="divider_size"/>
+    <attr format="color" name="divider_color"/>
     <attr format="reference" name="empty_view_layout"/>
     <attr format="reference" name="loading_view_layout"/>
   </declare-styleable>

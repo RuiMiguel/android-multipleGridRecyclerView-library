@@ -1,57 +1,56 @@
-package com.ruialonso.multiplegridrecyclerview.adapter;
+package com.gigigo.baserecycleradapter.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
-import com.ruialonso.multiplegridrecyclerview.viewholder.BaseMultipleGridViewHolderFactory;
-import com.ruialonso.multiplegridrecyclerview.viewholder.MultipleGridViewHolder;
+import com.gigigo.baserecycleradapter.viewholder.BaseViewHolder;
+import com.gigigo.baserecycleradapter.viewholder.BaseViewHolderFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MultipleGridAdapter<V> extends RecyclerView.Adapter<MultipleGridViewHolder> {
+public class BaseRecyclerAdapter<V> extends RecyclerView.Adapter<BaseViewHolder> {
 
-  private BaseMultipleGridViewHolderFactory viewHolderFactory;
+  private BaseViewHolderFactory viewHolderFactory;
   private List<Class> valueClassTypes = new ArrayList<>();
 
   private List<V> data = new ArrayList<>();
 
-  private MultipleGridViewHolder.OnItemClickListener itemClickListener;
-  private MultipleGridViewHolder.OnItemLongClickListener itemLongClickListener;
-  private MultipleGridViewHolder.OnItemDragListener itemDragListener;
+  private BaseViewHolder.OnItemClickListener itemClickListener;
+  private BaseViewHolder.OnItemLongClickListener itemLongClickListener;
+  private BaseViewHolder.OnItemDragListener itemDragListener;
 
-  public MultipleGridAdapter(Context context, Class valueClass,
-      Class<? extends MultipleGridViewHolder> viewHolderClass) {
+  public BaseRecyclerAdapter(Context context, Class valueClass,
+      Class<? extends BaseViewHolder> viewHolderClass) {
     this(context);
     bind(valueClass, viewHolderClass);
   }
 
-  public MultipleGridAdapter(Context context) {
-    this(new BaseMultipleGridViewHolderFactory(context));
+  public BaseRecyclerAdapter(Context context) {
+    this(new BaseViewHolderFactory(context));
   }
 
-  public MultipleGridAdapter(BaseMultipleGridViewHolderFactory baseMultipleGridViewHolderFactory,
-      Class valueClass, Class<? extends MultipleGridViewHolder> viewHolderClass) {
-    this(baseMultipleGridViewHolderFactory);
+  public BaseRecyclerAdapter(BaseViewHolderFactory baseBaseViewHolderFactory, Class valueClass,
+      Class<? extends BaseViewHolder> viewHolderClass) {
+    this(baseBaseViewHolderFactory);
     bind(valueClass, viewHolderClass);
   }
 
-  public MultipleGridAdapter(BaseMultipleGridViewHolderFactory baseMultipleGridViewHolderFactory) {
-    this.viewHolderFactory = baseMultipleGridViewHolderFactory;
+  public BaseRecyclerAdapter(BaseViewHolderFactory baseBaseViewHolderFactory) {
+    this.viewHolderFactory = baseBaseViewHolderFactory;
   }
 
-  public void bind(Class valueClass, Class<? extends MultipleGridViewHolder> viewHolderClass) {
+  public void bind(Class valueClass, Class<? extends BaseViewHolder> viewHolderClass) {
     valueClassTypes.add(valueClass);
     viewHolderFactory.bind(valueClass, viewHolderClass);
   }
 
-  @Override public MultipleGridViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    MultipleGridViewHolder viewHolder =
-        viewHolderFactory.create(valueClassTypes.get(viewType), parent);
+  @Override public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    BaseViewHolder viewHolder = viewHolderFactory.create(valueClassTypes.get(viewType), parent);
     bindListeners(viewHolder);
     return viewHolder;
   }
 
-  private void bindListeners(MultipleGridViewHolder viewHolder) {
+  private void bindListeners(BaseViewHolder viewHolder) {
     if (viewHolder != null) {
       viewHolder.setItemClickListener(itemClickListener);
       viewHolder.setItemLongClickListener(itemLongClickListener);
@@ -59,19 +58,20 @@ public class MultipleGridAdapter<V> extends RecyclerView.Adapter<MultipleGridVie
     }
   }
 
-  public void setItemClickListener(MultipleGridViewHolder.OnItemClickListener itemClickListener) {
+  public void setItemClickListener(BaseViewHolder.OnItemClickListener itemClickListener) {
     this.itemClickListener = itemClickListener;
   }
 
-  public void setItemLongClickListener(MultipleGridViewHolder.OnItemLongClickListener itemLongClickListener) {
+  public void setItemLongClickListener(
+      BaseViewHolder.OnItemLongClickListener itemLongClickListener) {
     this.itemLongClickListener = itemLongClickListener;
   }
 
-  public void setItemDragListener(MultipleGridViewHolder.OnItemDragListener itemDragListener) {
+  public void setItemDragListener(BaseViewHolder.OnItemDragListener itemDragListener) {
     this.itemDragListener = itemDragListener;
   }
 
-  @Override public void onBindViewHolder(MultipleGridViewHolder holder, int position) {
+  @Override public void onBindViewHolder(BaseViewHolder holder, int position) {
     holder.bindTo(data.get(position), position);
   }
 
