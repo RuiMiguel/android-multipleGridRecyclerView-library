@@ -26,6 +26,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * A {@link RecyclerView.ItemDecoration} which draws dividers (along the right & bottom)
@@ -52,19 +53,42 @@ public class GridItemDividerDecoration extends RecyclerView.ItemDecoration {
   @Override public void onDrawOver(Canvas canvas, RecyclerView parent, RecyclerView.State state) {
     if (parent.isAnimating()) return;
 
+    final int rightWithPadding = parent.getWidth() - parent.getPaddingRight();
+    final int bottomWithPadding = parent.getHeight() - parent.getPaddingBottom();
+
     final int childCount = parent.getChildCount();
     final RecyclerView.LayoutManager lm = parent.getLayoutManager();
+
     for (int i = 0; i < childCount; i++) {
       final View child = parent.getChildAt(i);
-      RecyclerView.ViewHolder viewHolder = parent.getChildViewHolder(child);
 
-      final int right = lm.getDecoratedRight(child);
-      final int bottom = lm.getDecoratedBottom(child);
-      // draw the bottom divider
-      canvas.drawRect(lm.getDecoratedLeft(child), bottom - dividerSize, right, bottom, paint);
-      // draw the right edge divider
-      canvas.drawRect(right - dividerSize, lm.getDecoratedTop(child), right, bottom - dividerSize,
-          paint);
+      final int childLeft = lm.getDecoratedLeft(child);
+      final int childTop = lm.getDecoratedTop(child);
+      final int childRight = lm.getDecoratedRight(child);
+      final int childBottom = lm.getDecoratedBottom(child);
+
+      final ViewGroup.MarginLayoutParams lp =
+          (ViewGroup.MarginLayoutParams) child.getLayoutParams();
+
+      final int bottomOffset = childBottom - child.getBottom() - lp.bottomMargin;
+      if (/*bottomOffset > 0 && */childBottom < bottomWithPadding) {
+        final int left = childLeft;
+        final int top = childBottom - bottomOffset;
+        final int right = childRight;
+        final int bottom = top + dividerSize;
+
+        canvas.drawRect(left, top, right, bottom, paint);
+      }
+
+      final int rightOffset = childRight - child.getRight() - lp.rightMargin;
+      if (/*rightOffset > 0 && */childRight < rightWithPadding) {
+        final int left = childRight - rightOffset;
+        final int top = childTop;
+        final int right = left + dividerSize;
+        final int bottom = childBottom;
+
+        canvas.drawRect(left, top, right, bottom, paint);
+      }
     }
   }
 }
