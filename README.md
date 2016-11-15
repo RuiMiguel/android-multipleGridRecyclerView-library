@@ -59,9 +59,9 @@ or
   multipleGridRecyclerView.setLoadingViewLayoutByLayoutRes(@LayoutRes int)
 ````
 
-### Todos
-
- - 
+### TODO
+ - bug when last row has elements with different heights, layoutmanager just take last element on row, not highest element
+ - bug adding first element, don't renderize it until second element added
 
 ### Based on
 * [EasyRecyclerAdapter] to perform Adapters and ViewHolder factory
